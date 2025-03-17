@@ -1,13 +1,8 @@
-import React from "react";
-import { FaCartShopping } from "react-icons/fa6";
-import "./CartWidget.css";
+import './CartWidget.css';
 
-const CartWidget = () => {
+function CartWidget() {
     return (
-        <div className="cart-widget">
-            <FaCartShopping className="cart-icon" />
-            <span className="cart-count">2</span>
-        </div>
+        <p>Icono carrito (4)</p>
     );
 };
 
