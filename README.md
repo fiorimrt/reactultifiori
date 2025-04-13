@@ -33,6 +33,6 @@ El proyecto está publicado usando Firebase Hosting:
 
 
 ### 👨‍💻 Autor  
-- **Nombre:** Martín  
+- **Nombre:** Martín Fiori
 - **Curso:** React JS - Coderhouse  
 - **Comisión:** 75915
