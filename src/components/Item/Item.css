@@ -12,3 +12,16 @@
 
 
 }
+
+.item-img {
+    width: 100%;
+    max-width: 220px;
+    /* Limita el tamaño */
+    height: 140px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    background-color: #fff;
+
+
+}

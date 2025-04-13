@@ -1,51 +1,76 @@
-
-import { useState } from 'react';
-import { useAppContext } from '../context/Context';
+import { useState } from "react";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../../firebase/firebaseConfig";
+import { useAppContext } from "../context/Context";
 import './Checkout.css';
-import { useNavigate } from 'react-router-dom';
 
 function Checkout() {
-
-    const navigate = useNavigate();
+    const { carrito, setCarrito } = useAppContext();
 
     const [formData, setFormData] = useState({
-        nombre: "",
-        correo: "",
-        telefono: "",
+        nombre: '',
+        correo: '',
+        telefono: ''
     });
 
-    const modificarInput = (e) => {
-        const { value, name } = e.target;
+    const [orderId, setOrderId] = useState("");
+
+    const handleChange = (e) => {
         setFormData({
             ...formData,
-            [name]: value,
+            [e.target.name]: e.target.value
         });
     };
 
-    const crearOrden = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Orden creada", formData);
-        setFormData({
-            nombre: "",
-            correo: "",
-            telefono: "",
-        });
 
-        setTimeout(() => {
-            navigate("/");
-        }, 1000);
+        const orden = {
+            comprador: formData,
+            productos: carrito,
+            total: carrito.reduce((acc, el) => acc + el.precio * el.cantidad, 0),
+            fecha: serverTimestamp()
+        };
+
+        try {
+            const docRef = await addDoc(collection(db, "ordenes"), orden);
+            setOrderId(docRef.id);
+            setCarrito([]);
+        } catch (error) {
+            console.error("Error al guardar la orden:", error);
+        }
     };
+
+    if (orderId) {
+        return (
+            <div className="checkout-container">
+                <h2>¡Gracias por tu compra!</h2>
+                <p>Tu número de orden es:</p>
+                <strong>{orderId}</strong>
+            </div>
+        );
+    }
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-            <form onSubmit={crearOrden}>
-                <input type="text" placeholder='Nombre' name="nombre" value={formData.nombre} onChange={modificarInput} />
-                <input type="text" placeholder='Correo' name="correo" value={formData.correo} onChange={modificarInput} />
-                <input type="text" placeholder='Teléfono' name="telefono" value={formData.telefono} onChange={modificarInput} />
-                <input type="submit" value="Enviar" />
+        <div className="checkout-container">
+            <h2>Finalizar compra</h2>
+            <form onSubmit={handleSubmit} className="checkout-form">
+                <label>
+                    Nombre:
+                    <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+                </label>
+                <label>
+                    Correo:
+                    <input type="email" name="correo" value={formData.correo} onChange={handleChange} required />
+                </label>
+                <label>
+                    Teléfono:
+                    <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} required />
+                </label>
+                <button type="submit">Enviar</button>
             </form>
-        </div >
+        </div>
     );
-};
+}
 
 export default Checkout;

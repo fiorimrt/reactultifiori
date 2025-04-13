@@ -1,12 +1,10 @@
 import { createContext, useContext, useState } from "react";
-export const useAppContext = () => {
-    // Implementación de tu lógica
-};
+
 const AppContext = createContext();
 
+export const useAppContext = () => useContext(AppContext);
 
-
-export const ContextProvider = (props) => {
+export const ContextProvider = ({ children }) => {
     const [carrito, setCarrito] = useState([]);
     const [contador, setContador] = useState(1);
 
@@ -20,13 +18,13 @@ export const ContextProvider = (props) => {
                     };
                 } else {
                     return el;
-                };
+                }
             });
 
             setCarrito(newCarrito);
         } else {
             setCarrito([...carrito, producto]);
-        };
+        }
         setContador(1);
     };
 
@@ -35,13 +33,9 @@ export const ContextProvider = (props) => {
         setCarrito(newCarrito);
     };
 
-    const limpiarCarrito = () => {
-        setCarrito([]);
-    };
-
     return (
-        <AppContext.Provider value={{ carrito, agregarAlCarrito, contador, setContador, eliminarProducto, limpiarCarrito }}>
-            {props.children}
+        <AppContext.Provider value={{ carrito, contador, setContador, agregarAlCarrito, eliminarProducto }}>
+            {children}
         </AppContext.Provider>
     );
 };

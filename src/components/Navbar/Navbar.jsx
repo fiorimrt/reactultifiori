@@ -7,7 +7,7 @@ function Navbar() {
     return (
         <header>
             <nav className="nav-bar">
-                <img src="../src/assets/imgs/volkswagen.png" alt="vw" className="logo" />
+                <img src="https://res.cloudinary.com/ddrxjetdn/image/upload/v1744498403/vw-logo-3296_1_cbpwsn.png" alt="vw" className="logo" />
                 <ul className="nav-bar-options">
                     <li className="nav-bar-item">
                         <Link to="/">

@@ -1,22 +1,5 @@
-// import Item from '../Item/Item'
-// import './ItemListContainer.css';
-
-// function ItemListContainer() {
-//     return (
-//         <div className='container-cards'>
-//             <Item nombre={'Gol'} precio={15000} />
-//             <Item nombre={'Virtus'} precio={25000} />
-//             <Item nombre={'Golf'} precio={30000} />
-//             <Item nombre={'Taos'} precio={35000} />
-
-//         </div>
-//     )
-// }
-
-// export default ItemListContainer;
-
 import { useEffect, useState } from 'react';
-import { fetchData } from '../../fetchData';
+import { fetchData } from '../../firebase/fetchData';
 import Item from '../Item/Item';
 import Loader from '../Loader/Loader';
 import ItemDetail from '../ItemDetail/ItemDetail';
@@ -63,7 +46,13 @@ function ItemListContainer() {
                     loading ? <Loader /> :
                         misProductos.map((el, index) => {
                             return (
-                                <Item key={index} id={el.id} nombre={el.nombre} precio={el.precio} />
+                                <Item
+                                    key={index}
+                                    id={el.id}
+                                    nombre={el.nombre}
+                                    precio={el.precio}
+                                    img={el.img}
+                                />
                             );
                         })
                 }
